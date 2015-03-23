@@ -4,6 +4,12 @@
 
 from grid import Grid
 
+UP = (-1, 0)
+DOWN = (1, 0)
+LEFT = (0, -1)
+RIGHT = (0, 1)
+
+
 class BlackboxBoard(Grid):
     def __init__(self, *args, **kwargs):
         super(BlackboxBoard, self).__init__(*args, **kwargs)
@@ -24,18 +30,22 @@ class BlackboxBoard(Grid):
 
         # Top row
         if entry < self.width:
+            self._direction = DOWN
             return (0, entry)
 
         # Last column
         if entry < (self.width + self.height):
+            self._direction = LEFT
             return (entry - self.width, self.width - 1)
 
         # Bottom row
         if entry < (self.width * 2 + self.height):
+            self._direction = UP
             return (self.height - 1, self.width - entry % (self.width + self.height) - 1)
 
         # First column
         if entry >= (self.width * 2 + self.height):
+            self._direction = RIGHT
             return (self.height - entry % (self.width * 2 + self.height) - 1, 0)
 
     def cell_to_ord(self, cell):
